@@ -408,64 +408,38 @@ h3 {
 }
 
 .client-card {
-  min-height: 210px;
-  padding: 22px;
+  display: grid;
+  gap: 14px;
+  min-height: 320px;
+  padding: 14px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.76);
 }
 
-.client-card span {
-  display: inline-grid;
-  place-items: center;
-  min-width: 42px;
-  height: 32px;
-  margin-bottom: 34px;
-  border-radius: 8px;
-  color: var(--brand-blue);
-  background: var(--brand-cyan-soft);
-  font-size: 0.78rem;
-  font-weight: 900;
+.client-card h3 {
+  padding: 6px 6px 0;
 }
 
-.client-card strong {
+.client-image-link {
   display: block;
-  font-size: 1.06rem;
-  line-height: 1.22;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--brand-cyan-soft);
+  box-shadow: 0 14px 34px rgba(28, 111, 180, 0.14);
 }
 
-.client-card p {
-  margin: 12px 0 0;
-  color: var(--muted);
+.client-image-link img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 220ms ease;
 }
 
-.client-card-cta {
-  color: white;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(255,255,255,0.07) 1px, transparent 1px),
-    linear-gradient(135deg, var(--brand-blue), var(--navy));
-  background-size: 34px 34px, 34px 34px, auto;
-}
-
-.client-card-cta span {
-  color: #082333;
-  background: var(--brand-cyan);
-}
-
-.client-card-cta p {
-  color: rgba(255, 255, 255, 0.76);
-}
-
-.text-link {
-  display: inline-flex;
-  margin-top: 16px;
-  color: #8be5ff;
-  font-weight: 900;
-}
-
-.text-link:hover {
-  color: white;
+.client-image-link:hover img {
+  transform: scale(1.04);
 }
 
 .split,
