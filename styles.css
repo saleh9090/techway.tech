@@ -396,6 +396,78 @@ h3 {
   color: var(--muted);
 }
 
+.clients {
+  padding: 18px 0 78px;
+}
+
+.client-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 34px;
+}
+
+.client-card {
+  min-height: 210px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.76);
+}
+
+.client-card span {
+  display: inline-grid;
+  place-items: center;
+  min-width: 42px;
+  height: 32px;
+  margin-bottom: 34px;
+  border-radius: 8px;
+  color: var(--brand-blue);
+  background: var(--brand-cyan-soft);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.client-card strong {
+  display: block;
+  font-size: 1.06rem;
+  line-height: 1.22;
+}
+
+.client-card p {
+  margin: 12px 0 0;
+  color: var(--muted);
+}
+
+.client-card-cta {
+  color: white;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255,255,255,0.07) 1px, transparent 1px),
+    linear-gradient(135deg, var(--brand-blue), var(--navy));
+  background-size: 34px 34px, 34px 34px, auto;
+}
+
+.client-card-cta span {
+  color: #082333;
+  background: var(--brand-cyan);
+}
+
+.client-card-cta p {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.text-link {
+  display: inline-flex;
+  margin-top: 16px;
+  color: #8be5ff;
+  font-weight: 900;
+}
+
+.text-link:hover {
+  color: white;
+}
+
 .split,
 .work {
   display: grid;
@@ -553,7 +625,7 @@ h3 {
 }
 
 .stats strong,
-.stats span {
+stats span {
   display: block;
 }
 
@@ -691,6 +763,7 @@ h3 {
   }
 
   .trust-strip,
+  .client-grid,
   .timeline {
     grid-template-columns: 1fr 1fr;
   }
@@ -736,6 +809,7 @@ h3 {
   .node-data { right: 38px; bottom: 44px; }
 
   .trust-strip,
+  .client-grid,
   .service-grid,
   .timeline,
   .stats {
