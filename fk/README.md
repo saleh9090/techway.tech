@@ -40,6 +40,7 @@ After adding or editing a category, Laravel redirects back to the expense catego
 composer install
 cp .env.example .env
 php artisan key:generate
+mysql -u root -e "CREATE DATABASE fk_accounting CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 php artisan migrate
 php artisan serve
 ```
@@ -58,6 +59,21 @@ Run migrations on the server after deployment:
 
 ```bash
 php artisan migrate --force
+```
+
+## Database
+
+The application is configured for MySQL by default.
+
+Required `.env` values:
+
+```text
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=fk_accounting
+DB_USERNAME=root
+DB_PASSWORD=
 ```
 
 ## Static Prototype

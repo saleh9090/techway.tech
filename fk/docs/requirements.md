@@ -61,6 +61,7 @@ After add or edit, the user must redirect back to the categories index page.
 ## Implementation
 
 - Framework: Laravel
+- Database: MySQL
 - Database access: Eloquent models and migrations
 - Add/edit behavior: controller redirects to the relevant index route after successful create or update
 - Previous static prototype: preserved under `docs/static-prototype`
