@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fateer Wa Khameer Accounting</title>
+    <link rel="stylesheet" href="assets/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="index.html">
+          <strong>Fateer Wa Khameer</strong>
+          <span>Accounting System</span>
+        </a>
+        <a class="nav-link is-active" href="index.html">Dashboard</a>
+        <div class="nav-group-label">Expenses</div>
+        <a class="nav-link" href="expenses/index.html">Expenses</a>
+        <a class="nav-link" href="expense-categories/index.html">Expenses Categories</a>
+      </aside>
+
+      <main class="main">
+        <header class="page-header">
+          <div>
+            <h1 class="page-title">Dashboard</h1>
+            <p class="page-subtitle">First module for tracking expenses and expense categories.</p>
+          </div>
+        </header>
+
+        <section class="grid metric-grid" aria-label="Expense summary">
+          <article class="card">
+            <span>Expenses</span>
+            <strong data-total-expenses>0</strong>
+          </article>
+          <article class="card">
+            <span>Total Amount</span>
+            <strong data-total-amount>0.00</strong>
+          </article>
+          <article class="card">
+            <span>Categories</span>
+            <strong data-total-categories>0</strong>
+          </article>
+          <article class="card">
+            <span>Latest Expense</span>
+            <strong data-latest-expense>No expenses yet</strong>
+          </article>
+        </section>
+      </main>
+    </div>
+    <script src="assets/app.js"></script>
+  </body>
+</html>
