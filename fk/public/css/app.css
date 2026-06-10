@@ -243,6 +243,32 @@ tr:last-child td {
   border-top: 1px solid var(--line);
 }
 
+.pagination-search,
+.pagination-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination-search {
+  flex: 1 1 320px;
+}
+
+.pagination-search input {
+  width: min(320px, 100%);
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 9px 12px;
+  background: white;
+  color: var(--ink);
+}
+
+.pagination-meta {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .pagination-summary {
   color: var(--muted);
   font-size: 0.9rem;
@@ -361,6 +387,15 @@ tr:last-child td {
   .table-toolbar,
   .pagination {
     display: grid;
+  }
+
+  .pagination-search,
+  .pagination-meta {
+    justify-content: stretch;
+  }
+
+  .pagination-search input {
+    width: 100%;
   }
 
   .metric-grid {

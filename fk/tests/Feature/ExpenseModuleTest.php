@@ -71,6 +71,29 @@ class ExpenseModuleTest extends TestCase
         $response->assertSee('Showing 11 to 12 of 12');
     }
 
+    public function test_expenses_index_can_be_searched(): void
+    {
+        Expense::create([
+            'date' => '2026-06-10',
+            'expense' => 'Flour purchase',
+            'amount' => '12.50',
+            'details' => null,
+        ]);
+
+        Expense::create([
+            'date' => '2026-06-10',
+            'expense' => 'Oil purchase',
+            'amount' => '8.00',
+            'details' => null,
+        ]);
+
+        $response = $this->get(route('expenses.index', ['search' => 'Flour']));
+
+        $response->assertOk();
+        $response->assertSee('Flour purchase');
+        $response->assertDontSee('Oil purchase');
+    }
+
     public function test_expense_category_can_be_created_and_redirects_to_index(): void
     {
         $response = $this->post(route('expense-categories.store'), [
@@ -114,5 +137,22 @@ class ExpenseModuleTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('Showing 11 to 12 of 12');
+    }
+
+    public function test_expense_categories_index_can_be_searched(): void
+    {
+        ExpenseCategory::create([
+            'name' => 'Food Ingredients | المواد الغذائية',
+        ]);
+
+        ExpenseCategory::create([
+            'name' => 'Packaging Materials | مواد التعبئة والتغليف',
+        ]);
+
+        $response = $this->get(route('expense-categories.index', ['search' => 'Packaging']));
+
+        $response->assertOk();
+        $response->assertSee('Packaging Materials');
+        $response->assertDontSee('Food Ingredients');
     }
 }

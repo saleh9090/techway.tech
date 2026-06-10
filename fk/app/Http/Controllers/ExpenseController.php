@@ -9,14 +9,26 @@ use Illuminate\View\View;
 
 class ExpenseController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $search = trim((string) $request->query('search', ''));
+
         return view('expenses.index', [
             'expenses' => Expense::query()
+                ->when($search !== '', function ($query) use ($search) {
+                    $query->where(function ($query) use ($search) {
+                        $query
+                            ->where('expense', 'like', "%{$search}%")
+                            ->orWhere('date', 'like', "%{$search}%")
+                            ->orWhere('amount', 'like', "%{$search}%")
+                            ->orWhere('details', 'like', "%{$search}%");
+                    });
+                })
                 ->latest('date')
                 ->latest('id')
                 ->paginate(10)
                 ->withQueryString(),
+            'search' => $search,
         ]);
     }
 

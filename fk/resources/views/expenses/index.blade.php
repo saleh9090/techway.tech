@@ -51,7 +51,12 @@
         </tbody>
       </table>
 
-      @include('partials.pagination', ['paginator' => $expenses])
     @endif
+
+    @include('partials.pagination', [
+        'paginator' => $expenses,
+        'search' => $search,
+        'placeholder' => 'Search expenses',
+    ])
   </section>
 @endsection

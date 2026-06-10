@@ -9,13 +9,19 @@ use Illuminate\View\View;
 
 class ExpenseCategoryController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $search = trim((string) $request->query('search', ''));
+
         return view('expense-categories.index', [
             'categories' => ExpenseCategory::query()
+                ->when($search !== '', function ($query) use ($search) {
+                    $query->where('name', 'like', "%{$search}%");
+                })
                 ->orderBy('id')
                 ->paginate(10)
                 ->withQueryString(),
+            'search' => $search,
         ]);
     }
 
