@@ -12,6 +12,9 @@ class ExpenseController extends Controller
     public function index(Request $request): View
     {
         $search = trim((string) $request->query('search', ''));
+        $dateFrom = $request->query('date_from');
+        $dateTo = $request->query('date_to');
+        $perPage = $this->perPage($request);
 
         return view('expenses.index', [
             'expenses' => Expense::query()
@@ -24,11 +27,16 @@ class ExpenseController extends Controller
                             ->orWhere('details', 'like', "%{$search}%");
                     });
                 })
+                ->when($dateFrom, fn ($query) => $query->whereDate('date', '>=', $dateFrom))
+                ->when($dateTo, fn ($query) => $query->whereDate('date', '<=', $dateTo))
                 ->latest('date')
                 ->latest('id')
-                ->paginate(10)
+                ->paginate($perPage)
                 ->withQueryString(),
             'search' => $search,
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo,
+            'perPage' => $perPage,
         ]);
     }
 
@@ -84,5 +92,12 @@ class ExpenseController extends Controller
             'amount' => ['required', 'numeric', 'min:0'],
             'details' => ['nullable', 'string'],
         ]);
+    }
+
+    private function perPage(Request $request): int
+    {
+        $perPage = (int) $request->query('per_page', 10);
+
+        return in_array($perPage, [10, 20, 50, 100], true) ? $perPage : 10;
     }
 }

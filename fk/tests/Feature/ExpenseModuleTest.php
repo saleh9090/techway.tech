@@ -71,6 +71,23 @@ class ExpenseModuleTest extends TestCase
         $response->assertSee('Showing 11 to 12 of 12');
     }
 
+    public function test_expenses_index_respects_per_page_option(): void
+    {
+        foreach (range(1, 12) as $index) {
+            Expense::create([
+                'date' => '2026-06-10',
+                'expense' => "Expense {$index}",
+                'amount' => '1.00',
+                'details' => null,
+            ]);
+        }
+
+        $response = $this->get(route('expenses.index', ['per_page' => 20]));
+
+        $response->assertOk();
+        $response->assertSee('Showing 1 to 12 of 12');
+    }
+
     public function test_expenses_index_can_be_searched(): void
     {
         Expense::create([
@@ -92,6 +109,40 @@ class ExpenseModuleTest extends TestCase
         $response->assertOk();
         $response->assertSee('Flour purchase');
         $response->assertDontSee('Oil purchase');
+    }
+
+    public function test_expenses_index_can_be_filtered_by_date_range(): void
+    {
+        Expense::create([
+            'date' => '2026-06-01',
+            'expense' => 'Old expense',
+            'amount' => '10.00',
+            'details' => null,
+        ]);
+
+        Expense::create([
+            'date' => '2026-06-10',
+            'expense' => 'Current expense',
+            'amount' => '20.00',
+            'details' => null,
+        ]);
+
+        Expense::create([
+            'date' => '2026-06-20',
+            'expense' => 'Future expense',
+            'amount' => '30.00',
+            'details' => null,
+        ]);
+
+        $response = $this->get(route('expenses.index', [
+            'date_from' => '2026-06-05',
+            'date_to' => '2026-06-15',
+        ]));
+
+        $response->assertOk();
+        $response->assertSee('Current expense');
+        $response->assertDontSee('Old expense');
+        $response->assertDontSee('Future expense');
     }
 
     public function test_expense_category_can_be_created_and_redirects_to_index(): void
@@ -137,6 +188,20 @@ class ExpenseModuleTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('Showing 11 to 12 of 12');
+    }
+
+    public function test_expense_categories_index_respects_per_page_option(): void
+    {
+        foreach (range(1, 12) as $index) {
+            ExpenseCategory::create([
+                'name' => "Category {$index}",
+            ]);
+        }
+
+        $response = $this->get(route('expense-categories.index', ['per_page' => 20]));
+
+        $response->assertOk();
+        $response->assertSee('Showing 1 to 12 of 12');
     }
 
     public function test_expense_categories_index_can_be_searched(): void

@@ -12,6 +12,7 @@ class ExpenseCategoryController extends Controller
     public function index(Request $request): View
     {
         $search = trim((string) $request->query('search', ''));
+        $perPage = $this->perPage($request);
 
         return view('expense-categories.index', [
             'categories' => ExpenseCategory::query()
@@ -19,9 +20,10 @@ class ExpenseCategoryController extends Controller
                     $query->where('name', 'like', "%{$search}%");
                 })
                 ->orderBy('id')
-                ->paginate(10)
+                ->paginate($perPage)
                 ->withQueryString(),
             'search' => $search,
+            'perPage' => $perPage,
         ]);
     }
 
@@ -71,5 +73,12 @@ class ExpenseCategoryController extends Controller
         return $request->validate([
             'name' => ['required', 'string', 'max:255'],
         ]);
+    }
+
+    private function perPage(Request $request): int
+    {
+        $perPage = (int) $request->query('per_page', 10);
+
+        return in_array($perPage, [10, 20, 50, 100], true) ? $perPage : 10;
     }
 }

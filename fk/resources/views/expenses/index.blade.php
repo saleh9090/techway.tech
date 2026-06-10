@@ -13,8 +13,13 @@
     <div class="table-toolbar">
       <strong>Expenses List</strong>
       @include('partials.search-form', [
+          'id' => 'expenses',
           'search' => $search,
           'placeholder' => 'Search expenses',
+          'perPage' => $perPage,
+          'showDateFilters' => true,
+          'dateFrom' => $dateFrom,
+          'dateTo' => $dateTo,
       ])
     </div>
 

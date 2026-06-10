@@ -13,8 +13,10 @@
     <div class="table-toolbar">
       <strong>Categories List</strong>
       @include('partials.search-form', [
+          'id' => 'categories',
           'search' => $search,
           'placeholder' => 'Search categories',
+          'perPage' => $perPage,
       ])
     </div>
 
