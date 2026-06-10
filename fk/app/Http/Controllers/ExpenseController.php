@@ -15,7 +15,8 @@ class ExpenseController extends Controller
             'expenses' => Expense::query()
                 ->latest('date')
                 ->latest('id')
-                ->get(),
+                ->paginate(10)
+                ->withQueryString(),
         ]);
     }
 

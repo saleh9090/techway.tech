@@ -14,7 +14,8 @@ class ExpenseCategoryController extends Controller
         return view('expense-categories.index', [
             'categories' => ExpenseCategory::query()
                 ->orderBy('id')
-                ->get(),
+                ->paginate(10)
+                ->withQueryString(),
         ]);
     }
 

@@ -50,6 +50,8 @@
           @endforeach
         </tbody>
       </table>
+
+      @include('partials.pagination', ['paginator' => $expenses])
     @endif
   </section>
 @endsection

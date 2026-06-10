@@ -44,6 +44,8 @@
           @endforeach
         </tbody>
       </table>
+
+      @include('partials.pagination', ['paginator' => $categories])
     @endif
   </section>
 @endsection

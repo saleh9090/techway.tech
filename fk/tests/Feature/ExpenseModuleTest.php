@@ -54,6 +54,23 @@ class ExpenseModuleTest extends TestCase
         ]);
     }
 
+    public function test_expenses_index_is_paginated(): void
+    {
+        foreach (range(1, 12) as $index) {
+            Expense::create([
+                'date' => '2026-06-10',
+                'expense' => "Expense {$index}",
+                'amount' => '1.00',
+                'details' => null,
+            ]);
+        }
+
+        $response = $this->get(route('expenses.index', ['page' => 2]));
+
+        $response->assertOk();
+        $response->assertSee('Showing 11 to 12 of 12');
+    }
+
     public function test_expense_category_can_be_created_and_redirects_to_index(): void
     {
         $response = $this->post(route('expense-categories.store'), [
@@ -83,5 +100,19 @@ class ExpenseModuleTest extends TestCase
             'id' => $category->id,
             'name' => 'Packaging',
         ]);
+    }
+
+    public function test_expense_categories_index_is_paginated(): void
+    {
+        foreach (range(1, 12) as $index) {
+            ExpenseCategory::create([
+                'name' => "Category {$index}",
+            ]);
+        }
+
+        $response = $this->get(route('expense-categories.index', ['page' => 2]));
+
+        $response->assertOk();
+        $response->assertSee('Showing 11 to 12 of 12');
     }
 }
