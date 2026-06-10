@@ -11,9 +11,7 @@ class Expense extends Model
         'date',
         'expense_category_id',
         'expense_item_id',
-        'expense',
         'amount',
-        'details',
         'note',
     ];
 

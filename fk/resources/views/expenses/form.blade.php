@@ -36,21 +36,9 @@
   </div>
 
   <div class="field">
-    <label for="expense">Expense</label>
-    <input id="expense" name="expense" type="text" value="{{ old('expense', $expense->expense) }}" required>
-    @error('expense') <small>{{ $message }}</small> @enderror
-  </div>
-
-  <div class="field">
     <label for="amount">Amount</label>
     <input id="amount" name="amount" type="number" min="0" step="0.01" value="{{ old('amount', number_format((float) ($expense->amount ?? 0), 2, '.', '')) }}" required>
     @error('amount') <small>{{ $message }}</small> @enderror
-  </div>
-
-  <div class="field">
-    <label for="details">Details</label>
-    <textarea id="details" name="details">{{ old('details', $expense->details) }}</textarea>
-    @error('details') <small>{{ $message }}</small> @enderror
   </div>
 
   <div class="field field-full">

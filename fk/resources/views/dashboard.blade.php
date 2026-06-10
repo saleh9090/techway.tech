@@ -27,8 +27,8 @@
     </article>
     <article class="card">
       <span>Latest Expense</span>
-      @php($latestExpense = \App\Models\Expense::query()->latest('date')->latest('id')->first())
-      <strong>{{ $latestExpense ? $latestExpense->date->format('Y-m-d').' - '.$latestExpense->expense : 'No expenses yet' }}</strong>
+      @php($latestExpense = \App\Models\Expense::query()->with('item')->latest('date')->latest('id')->first())
+      <strong>{{ $latestExpense ? $latestExpense->date->format('Y-m-d').' - '.($latestExpense->item?->name ?? 'Expense') : 'No expenses yet' }}</strong>
     </article>
   </section>
 @endsection

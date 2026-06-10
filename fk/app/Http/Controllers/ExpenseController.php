@@ -25,10 +25,8 @@ class ExpenseController extends Controller
                 ->when($search !== '', function ($query) use ($search) {
                     $query->where(function ($query) use ($search) {
                         $query
-                            ->where('expense', 'like', "%{$search}%")
-                            ->orWhere('date', 'like', "%{$search}%")
+                            ->where('date', 'like', "%{$search}%")
                             ->orWhere('amount', 'like', "%{$search}%")
-                            ->orWhere('details', 'like', "%{$search}%")
                             ->orWhere('note', 'like', "%{$search}%")
                             ->orWhereHas('category', fn ($query) => $query->where('name', 'like', "%{$search}%"))
                             ->orWhereHas('item', fn ($query) => $query->where('name', 'like', "%{$search}%"));
@@ -105,9 +103,7 @@ class ExpenseController extends Controller
                 Rule::exists('expense_items', 'id')
                     ->where(fn ($query) => $query->where('expense_category_id', $request->input('expense_category_id'))),
             ],
-            'expense' => ['required', 'string', 'max:255'],
             'amount' => ['required', 'numeric', 'min:0'],
-            'details' => ['nullable', 'string'],
             'note' => ['nullable', 'string'],
         ]);
     }

@@ -22,9 +22,7 @@ Fields:
 - Date
 - Expense Category: parent category selected from Expenses Categories
 - Sub Expense: category-owned item selected after choosing the expense category
-- Expense
 - Amount: decimal value stored and displayed as `0.00`
-- Details
 - Note
 
 After adding or editing an expense, Laravel redirects back to the expenses index route.

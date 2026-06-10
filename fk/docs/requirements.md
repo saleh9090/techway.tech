@@ -24,9 +24,7 @@ Fields:
 - Date
 - Expense Category: required parent category
 - Sub Expense: required item filtered by the selected category
-- Expense
 - Amount: decimal with `0.00` formatting
-- Details
 - Note
 
 After add or edit, the user must redirect back to the expenses index page.

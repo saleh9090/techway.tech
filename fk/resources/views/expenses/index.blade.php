@@ -32,10 +32,8 @@
             <th>ID</th>
             <th>Date</th>
             <th>Expense Category</th>
-            <th>Sub Expense</th>
             <th>Expense</th>
             <th>Amount</th>
-            <th>Details</th>
             <th>Note</th>
             <th>Actions</th>
           </tr>
@@ -47,9 +45,7 @@
               <td>{{ $expense->date->format('Y-m-d') }}</td>
               <td>{{ $expense->category?->name }}</td>
               <td>{{ $expense->item?->name }}</td>
-              <td>{{ $expense->expense }}</td>
               <td>{{ number_format((float) $expense->amount, 2) }}</td>
-              <td>{{ $expense->details }}</td>
               <td>{{ $expense->note }}</td>
               <td>
                 <div class="actions">

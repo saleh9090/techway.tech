@@ -32,9 +32,7 @@ class ExpenseModuleTest extends TestCase
             'date' => '2026-06-10',
             'expense_category_id' => $item->expense_category_id,
             'expense_item_id' => $item->id,
-            'expense' => 'Flour purchase',
             'amount' => '12.50',
-            'details' => 'Kitchen stock',
             'note' => 'Paid by cash',
         ]);
 
@@ -43,9 +41,7 @@ class ExpenseModuleTest extends TestCase
         $this->assertDatabaseHas('expenses', [
             'expense_category_id' => $item->expense_category_id,
             'expense_item_id' => $item->id,
-            'expense' => 'Flour purchase',
             'amount' => '12.50',
-            'details' => 'Kitchen stock',
             'note' => 'Paid by cash',
         ]);
     }
@@ -59,9 +55,7 @@ class ExpenseModuleTest extends TestCase
             'date' => '2026-06-10',
             'expense_category_id' => $oldItem->expense_category_id,
             'expense_item_id' => $oldItem->id,
-            'expense' => 'Flour purchase',
             'amount' => '12.50',
-            'details' => 'Kitchen stock',
             'note' => null,
         ]);
 
@@ -69,9 +63,7 @@ class ExpenseModuleTest extends TestCase
             'date' => '2026-06-11',
             'expense_category_id' => $newItem->expense_category_id,
             'expense_item_id' => $newItem->id,
-            'expense' => 'Oil purchase',
             'amount' => '9.75',
-            'details' => 'Updated details',
             'note' => 'Updated note',
         ]);
 
@@ -81,7 +73,6 @@ class ExpenseModuleTest extends TestCase
             'id' => $expense->id,
             'expense_category_id' => $newItem->expense_category_id,
             'expense_item_id' => $newItem->id,
-            'expense' => 'Oil purchase',
             'amount' => '9.75',
             'note' => 'Updated note',
         ]);
@@ -92,9 +83,7 @@ class ExpenseModuleTest extends TestCase
         foreach (range(1, 12) as $index) {
             Expense::create([
                 'date' => '2026-06-10',
-                'expense' => "Expense {$index}",
                 'amount' => '1.00',
-                'details' => null,
             ]);
         }
 
@@ -109,9 +98,7 @@ class ExpenseModuleTest extends TestCase
         foreach (range(1, 12) as $index) {
             Expense::create([
                 'date' => '2026-06-10',
-                'expense' => "Expense {$index}",
                 'amount' => '1.00',
-                'details' => null,
             ]);
         }
 
@@ -123,48 +110,50 @@ class ExpenseModuleTest extends TestCase
 
     public function test_expenses_index_can_be_searched(): void
     {
+        $flour = $this->createExpenseItem('Food Ingredients | المواد الغذائية', 'Flour');
+        $oil = $this->createExpenseItem('Food Ingredients | المواد الغذائية', 'Oil');
+
         Expense::create([
             'date' => '2026-06-10',
-            'expense' => 'Flour purchase',
+            'expense_category_id' => $flour->expense_category_id,
+            'expense_item_id' => $flour->id,
             'amount' => '12.50',
-            'details' => null,
+            'note' => null,
         ]);
 
         Expense::create([
             'date' => '2026-06-10',
-            'expense' => 'Oil purchase',
+            'expense_category_id' => $oil->expense_category_id,
+            'expense_item_id' => $oil->id,
             'amount' => '8.00',
-            'details' => null,
+            'note' => null,
         ]);
 
         $response = $this->get(route('expenses.index', ['search' => 'Flour']));
 
         $response->assertOk();
-        $response->assertSee('Flour purchase');
-        $response->assertDontSee('Oil purchase');
+        $response->assertSee('Flour');
+        $response->assertDontSee('Oil');
     }
 
     public function test_expenses_index_can_be_filtered_by_date_range(): void
     {
         Expense::create([
             'date' => '2026-06-01',
-            'expense' => 'Old expense',
             'amount' => '10.00',
-            'details' => null,
+            'note' => 'Old expense',
         ]);
 
         Expense::create([
             'date' => '2026-06-10',
-            'expense' => 'Current expense',
             'amount' => '20.00',
-            'details' => null,
+            'note' => 'Current expense',
         ]);
 
         Expense::create([
             'date' => '2026-06-20',
-            'expense' => 'Future expense',
             'amount' => '30.00',
-            'details' => null,
+            'note' => 'Future expense',
         ]);
 
         $response = $this->get(route('expenses.index', [
@@ -187,9 +176,7 @@ class ExpenseModuleTest extends TestCase
             'date' => '2026-06-10',
             'expense_category_id' => $selectedItem->expense_category_id,
             'expense_item_id' => $otherItem->id,
-            'expense' => 'Invalid purchase',
             'amount' => '12.50',
-            'details' => null,
             'note' => null,
         ]);
 
