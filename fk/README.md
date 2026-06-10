@@ -2,9 +2,9 @@
 
 Laravel accounting system for Fateer Wa Khameer.
 
-## Current Module
+## Current Modules
 
-The first implemented module is Expenses.
+The system currently includes dashboard reporting, income, and expenses.
 
 Navigation:
 
@@ -15,8 +15,16 @@ Navigation:
   - Income Categories
 - Expenses
   - Expenses
-  - Expenses Categories
   - Sub Expenses
+  - Expenses Categories
+
+## Dashboard
+
+The dashboard shows one 12-month chart comparing monthly income and monthly expenses.
+
+- Income is shown in green
+- Expenses are shown in red
+- The chart is horizontally scrollable on mobile screens
 
 ## Income
 
