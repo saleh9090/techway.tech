@@ -18,8 +18,8 @@
 
         <div class="nav-group-label">Expenses</div>
         <a class="nav-link {{ request()->routeIs('expenses.*') ? 'is-active' : '' }}" href="{{ route('expenses.index') }}">Expenses</a>
-        <a class="nav-link {{ request()->routeIs('expense-categories.*') ? 'is-active' : '' }}" href="{{ route('expense-categories.index') }}">Expenses Categories</a>
         <a class="nav-link {{ request()->routeIs('expense-items.*') ? 'is-active' : '' }}" href="{{ route('expense-items.index') }}">Sub Expenses</a>
+        <a class="nav-link {{ request()->routeIs('expense-categories.*') ? 'is-active' : '' }}" href="{{ route('expense-categories.index') }}">Expenses Categories</a>
       </aside>
 
       <main class="main">
