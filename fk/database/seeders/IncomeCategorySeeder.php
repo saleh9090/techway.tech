@@ -10,10 +10,8 @@ class IncomeCategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            'Sales Revenue | إيرادات المبيعات',
-            'Delivery Income | إيرادات التوصيل',
-            'Online Sales | مبيعات الإنترنت',
-            'Other Income | إيرادات أخرى',
+            'Sales',
+            'Other',
         ];
 
         foreach ($categories as $category) {
@@ -21,5 +19,11 @@ class IncomeCategorySeeder extends Seeder
                 'name' => $category,
             ]);
         }
+
+        IncomeCategory::query()
+            ->whereNotIn('name', $categories)
+            ->whereDoesntHave('income')
+            ->whereDoesntHave('items')
+            ->delete();
     }
 }

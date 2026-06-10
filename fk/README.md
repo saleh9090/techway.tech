@@ -51,6 +51,15 @@ Fields:
 
 After adding or editing a sub income record, Laravel redirects back to the sub income index route.
 
+Default income categories are:
+
+- Sales
+  - POS
+  - Transfer
+  - Talabat
+  - Cash
+- Other
+
 ## Expenses
 
 Fields:

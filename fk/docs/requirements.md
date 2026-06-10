@@ -61,6 +61,11 @@ When adding or editing income, the user must first select an Income Category, th
 
 After add or edit, the user must redirect back to the sub income index page.
 
+The system seeds default income categories and sub income:
+
+- Sales: POS, Transfer, Talabat, Cash
+- Other
+
 ### Expenses Page
 
 The expenses page must support listing, adding, editing, and deleting expenses.

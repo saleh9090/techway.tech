@@ -11,24 +11,21 @@ class IncomeItemSeeder extends Seeder
     public function run(): void
     {
         $itemsByCategory = [
-            'Sales Revenue | إيرادات المبيعات' => [
-                'Food Sales | مبيعات الأطعمة',
-                'Beverage Sales | مبيعات المشروبات',
-                'Catering Sales | مبيعات الضيافة',
+            'Sales' => [
+                'POS',
+                'Transfer',
+                'Talabat',
+                'Cash',
             ],
-            'Delivery Income | إيرادات التوصيل' => [
-                'Delivery Fees | رسوم التوصيل',
-                'Delivery Platform Sales | مبيعات منصات التوصيل',
-            ],
-            'Online Sales | مبيعات الإنترنت' => [
-                'Website Sales | مبيعات الموقع',
-                'Social Media Sales | مبيعات وسائل التواصل',
-            ],
-            'Other Income | إيرادات أخرى' => [
-                'Refunds & Rebates | الاستردادات والخصومات',
-                'Miscellaneous Income | إيرادات متنوعة',
-            ],
+            'Other' => [],
         ];
+
+        $itemNames = collect($itemsByCategory)->flatten()->all();
+
+        IncomeItem::query()
+            ->whereNotIn('name', $itemNames)
+            ->whereDoesntHave('income')
+            ->delete();
 
         foreach ($itemsByCategory as $categoryName => $items) {
             $category = IncomeCategory::firstOrCreate([
@@ -42,5 +39,11 @@ class IncomeItemSeeder extends Seeder
                 ]);
             }
         }
+
+        IncomeCategory::query()
+            ->whereNotIn('name', array_keys($itemsByCategory))
+            ->whereDoesntHave('income')
+            ->whereDoesntHave('items')
+            ->delete();
     }
 }

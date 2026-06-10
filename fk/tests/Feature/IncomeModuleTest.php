@@ -13,7 +13,7 @@ class IncomeModuleTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function createIncomeItem(string $categoryName = 'Sales Revenue | إيرادات المبيعات', string $itemName = 'Food Sales | مبيعات الأطعمة'): IncomeItem
+    private function createIncomeItem(string $categoryName = 'Sales', string $itemName = 'POS'): IncomeItem
     {
         $category = IncomeCategory::create([
             'name' => $categoryName,
@@ -49,8 +49,8 @@ class IncomeModuleTest extends TestCase
 
     public function test_income_can_be_updated_and_redirects_to_index(): void
     {
-        $oldItem = $this->createIncomeItem('Sales Revenue | إيرادات المبيعات', 'Food Sales | مبيعات الأطعمة');
-        $newItem = $this->createIncomeItem('Delivery Income | إيرادات التوصيل', 'Delivery Fees | رسوم التوصيل');
+        $oldItem = $this->createIncomeItem('Sales', 'POS');
+        $newItem = $this->createIncomeItem('Sales', 'Transfer');
 
         $income = Income::create([
             'date' => '2026-06-10',
@@ -81,14 +81,14 @@ class IncomeModuleTest extends TestCase
 
     public function test_income_index_is_paginated_and_searchable(): void
     {
-        $food = $this->createIncomeItem('Sales Revenue | إيرادات المبيعات', 'Food Sales | مبيعات الأطعمة');
-        $delivery = $this->createIncomeItem('Delivery Income | إيرادات التوصيل', 'Delivery Fees | رسوم التوصيل');
+        $pos = $this->createIncomeItem('Sales', 'POS');
+        $talabat = $this->createIncomeItem('Sales', 'Talabat');
 
         foreach (range(1, 12) as $index) {
             Income::create([
                 'date' => '2026-06-10',
-                'income_category_id' => $food->income_category_id,
-                'income_item_id' => $food->id,
+                'income_category_id' => $pos->income_category_id,
+                'income_item_id' => $pos->id,
                 'amount' => '1.00',
                 'note' => "Income {$index}",
             ]);
@@ -96,8 +96,8 @@ class IncomeModuleTest extends TestCase
 
         Income::create([
             'date' => '2026-06-10',
-            'income_category_id' => $delivery->income_category_id,
-            'income_item_id' => $delivery->id,
+            'income_category_id' => $talabat->income_category_id,
+            'income_item_id' => $talabat->id,
             'amount' => '20.00',
             'note' => 'Delivery only',
         ]);
@@ -107,11 +107,10 @@ class IncomeModuleTest extends TestCase
         $response->assertOk();
         $response->assertSee('Showing 11 to 13 of 13');
 
-        $response = $this->get(route('income.index', ['search' => 'Delivery']));
+        $response = $this->get(route('income.index', ['search' => 'Talabat']));
 
         $response->assertOk();
-        $response->assertSee('Delivery Fees');
-        $response->assertDontSee('Food Sales');
+        $response->assertSeeInOrder(['Talabat', '20.00', 'Delivery only']);
     }
 
     public function test_income_index_can_be_filtered_by_date_range(): void
@@ -155,8 +154,8 @@ class IncomeModuleTest extends TestCase
 
     public function test_income_requires_sub_income_from_selected_category(): void
     {
-        $selectedItem = $this->createIncomeItem('Sales Revenue | إيرادات المبيعات', 'Food Sales | مبيعات الأطعمة');
-        $otherItem = $this->createIncomeItem('Delivery Income | إيرادات التوصيل', 'Delivery Fees | رسوم التوصيل');
+        $selectedItem = $this->createIncomeItem('Sales', 'POS');
+        $otherItem = $this->createIncomeItem('Other', 'Manual adjustment');
 
         $response = $this->post(route('income.store'), [
             'date' => '2026-06-10',
@@ -172,7 +171,7 @@ class IncomeModuleTest extends TestCase
     public function test_income_categories_and_items_crud_redirect_to_index(): void
     {
         $response = $this->post(route('income-categories.store'), [
-            'name' => 'Sales Revenue | إيرادات المبيعات',
+            'name' => 'Sales',
         ]);
 
         $response->assertRedirect(route('income-categories.index'));
@@ -181,7 +180,7 @@ class IncomeModuleTest extends TestCase
 
         $response = $this->post(route('income-items.store'), [
             'income_category_id' => $category->id,
-            'name' => 'Food Sales | مبيعات الأطعمة',
+            'name' => 'POS',
         ]);
 
         $response->assertRedirect(route('income-items.index'));
@@ -190,53 +189,56 @@ class IncomeModuleTest extends TestCase
 
         $response = $this->put(route('income-items.update', $item), [
             'income_category_id' => $category->id,
-            'name' => 'Updated Food Sales | مبيعات الأطعمة',
+            'name' => 'Updated POS',
         ]);
 
         $response->assertRedirect(route('income-items.index'));
 
         $this->assertDatabaseHas('income_items', [
             'id' => $item->id,
-            'name' => 'Updated Food Sales | مبيعات الأطعمة',
+            'name' => 'Updated POS',
         ]);
     }
 
     public function test_income_categories_index_shows_sub_income_count(): void
     {
         $category = IncomeCategory::create([
-            'name' => 'Sales Revenue | إيرادات المبيعات',
+            'name' => 'Sales',
         ]);
 
         IncomeItem::create([
             'income_category_id' => $category->id,
-            'name' => 'Food Sales | مبيعات الأطعمة',
+            'name' => 'POS',
         ]);
 
         IncomeItem::create([
             'income_category_id' => $category->id,
-            'name' => 'Beverage Sales | مبيعات المشروبات',
+            'name' => 'Transfer',
         ]);
 
         $response = $this->get(route('income-categories.index'));
 
         $response->assertOk();
-        $response->assertSeeInOrder(['Sales Revenue | إيرادات المبيعات', '2']);
+        $response->assertSeeInOrder(['Sales', '2']);
     }
 
     public function test_default_income_items_are_seeded_under_main_categories(): void
     {
         $this->seed(IncomeItemSeeder::class);
 
-        $sales = IncomeCategory::where('name', 'Sales Revenue | إيرادات المبيعات')->firstOrFail();
+        $sales = IncomeCategory::where('name', 'Sales')->firstOrFail();
+        $other = IncomeCategory::where('name', 'Other')->firstOrFail();
 
         $this->assertDatabaseHas('income_items', [
             'income_category_id' => $sales->id,
-            'name' => 'Food Sales | مبيعات الأطعمة',
+            'name' => 'POS',
         ]);
 
         $this->assertDatabaseHas('income_items', [
             'income_category_id' => $sales->id,
-            'name' => 'Beverage Sales | مبيعات المشروبات',
+            'name' => 'Cash',
         ]);
+
+        $this->assertSame(0, $other->items()->count());
     }
 }

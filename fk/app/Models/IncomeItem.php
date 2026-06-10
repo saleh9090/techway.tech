@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class IncomeItem extends Model
 {
@@ -15,5 +16,10 @@ class IncomeItem extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(IncomeCategory::class, 'income_category_id');
+    }
+
+    public function income(): HasMany
+    {
+        return $this->hasMany(Income::class);
     }
 }
