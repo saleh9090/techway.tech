@@ -10,6 +10,14 @@
 
   <section class="metric-grid" aria-label="Expense summary">
     <article class="card">
+      <span>Income</span>
+      <strong>{{ \App\Models\Income::count() }}</strong>
+    </article>
+    <article class="card">
+      <span>Total Income</span>
+      <strong>{{ number_format(\App\Models\Income::sum('amount'), 2) }}</strong>
+    </article>
+    <article class="card">
       <span>Expenses</span>
       <strong>{{ \App\Models\Expense::count() }}</strong>
     </article>
@@ -29,6 +37,11 @@
       <span>Latest Expense</span>
       @php($latestExpense = \App\Models\Expense::query()->with('item')->latest('date')->latest('id')->first())
       <strong>{{ $latestExpense ? $latestExpense->date->format('Y-m-d').' - '.($latestExpense->item?->name ?? 'Expense') : 'No expenses yet' }}</strong>
+    </article>
+    <article class="card">
+      <span>Latest Income</span>
+      @php($latestIncome = \App\Models\Income::query()->with('item')->latest('date')->latest('id')->first())
+      <strong>{{ $latestIncome ? $latestIncome->date->format('Y-m-d').' - '.($latestIncome->item?->name ?? 'Income') : 'No income yet' }}</strong>
     </article>
   </section>
 @endsection

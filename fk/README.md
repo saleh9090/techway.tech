@@ -9,10 +9,47 @@ The first implemented module is Expenses.
 Navigation:
 
 - Dashboard
+- Income
+  - Income
+  - Sub Income
+  - Income Categories
 - Expenses
   - Expenses
   - Expenses Categories
   - Sub Expenses
+
+## Income
+
+Fields:
+
+- ID: auto-generated
+- Date
+- Income Category: parent category selected from Income Categories
+- Sub Income: category-owned item selected after choosing the income category
+- Amount: decimal value stored and displayed as `0.00`
+- Note
+
+After adding or editing an income record, Laravel redirects back to the income index route.
+
+## Income Categories
+
+Fields:
+
+- ID: auto-generated
+- Name
+- Sub: number of child Sub Income records
+
+After adding or editing an income category, Laravel redirects back to the income categories index route.
+
+## Sub Income
+
+Fields:
+
+- ID: auto-generated
+- Income Category: parent category
+- Name
+
+After adding or editing a sub income record, Laravel redirects back to the sub income index route.
 
 ## Expenses
 

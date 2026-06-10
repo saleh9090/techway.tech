@@ -4,15 +4,62 @@
 
 Fateer Wa Khameer needs a small accounting system for daily restaurant/shop operations.
 
-## Module 1: Expenses
+## Module 1: Income and Expenses
 
 ### Navigation
 
-The system must have an Expenses tab with two pages under it:
+The system must have an Income tab with three pages under it:
+
+- Income
+- Income Categories
+- Sub Income
+
+The system must have an Expenses tab with three pages under it:
 
 - Expenses
 - Expenses Categories
 - Sub Expenses
+
+### Income Page
+
+The income page must support listing, adding, editing, and deleting income records.
+
+Fields:
+
+- ID: auto-generated
+- Date
+- Income Category: required parent category
+- Sub Income: required item filtered by the selected category
+- Amount: decimal with `0.00` formatting
+- Note
+
+After add or edit, the user must redirect back to the income index page.
+
+### Income Categories Page
+
+The income categories page must support listing, adding, editing, and deleting categories.
+
+Fields:
+
+- ID: auto-generated
+- Name
+- Sub: count of child Sub Income records
+
+After add or edit, the user must redirect back to the income categories index page.
+
+### Sub Income Page
+
+The sub income page must support listing, adding, editing, and deleting category-owned income items.
+
+Fields:
+
+- ID: auto-generated
+- Income Category: parent category selected from Income Categories
+- Name
+
+When adding or editing income, the user must first select an Income Category, then only see Sub Income that belongs to that category.
+
+After add or edit, the user must redirect back to the sub income index page.
 
 ### Expenses Page
 
