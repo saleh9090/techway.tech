@@ -186,38 +186,28 @@ th {
 }
 
 .table-toolbar {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px 16px;
+  display: grid;
+  gap: 14px;
+  padding: 16px;
   border-bottom: 1px solid var(--line);
 }
 
 .table-controls {
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto;
   gap: 12px;
-  flex: 1 1 760px;
-  flex-wrap: wrap;
+  align-items: end;
 }
 
 .table-search,
 .table-page-size {
-  display: flex;
-  align-items: flex-end;
+  display: grid;
+  align-items: end;
   gap: 8px;
-  flex-wrap: wrap;
 }
 
 .table-search {
-  flex: 1 1 620px;
-  justify-content: flex-end;
-}
-
-.table-page-size {
-  flex: 0 0 auto;
+  grid-template-columns: minmax(220px, 1fr) minmax(140px, 180px) minmax(140px, 180px) auto auto;
 }
 
 .filter-field {
@@ -242,7 +232,7 @@ th {
 }
 
 .filter-field-search {
-  flex: 1 1 260px;
+  min-width: 0;
 }
 
 .filter-field-search input {
@@ -434,18 +424,17 @@ tr:last-child td {
   }
 
   .page-header,
-  .table-toolbar,
   .pagination {
     display: grid;
   }
 
-  .table-search,
-  .pagination-meta {
-    justify-content: stretch;
+  .table-controls,
+  .table-search {
+    grid-template-columns: 1fr;
   }
 
-  .table-search {
-    display: grid;
+  .pagination-meta {
+    justify-content: stretch;
   }
 
   .filter-field-search input,
@@ -473,14 +462,57 @@ tr:last-child td {
 
   tr {
     border-bottom: 1px solid var(--line);
+    padding: 10px 0;
   }
 
   td {
     border-bottom: 0;
   }
+
+  td[data-label] {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 12px;
+    padding: 8px 16px;
+  }
+
+  td[data-label]::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  td[data-label]:empty::after {
+    content: "-";
+    color: var(--muted);
+  }
+
+  td .actions {
+    align-items: center;
+  }
 }
 
 @media (max-width: 520px) {
+  .main {
+    padding: 14px;
+  }
+
+  .sidebar {
+    padding: 16px;
+  }
+
+  .table-toolbar {
+    padding: 14px;
+  }
+
+  td[data-label] {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
   .metric-grid {
     grid-template-columns: 1fr;
   }

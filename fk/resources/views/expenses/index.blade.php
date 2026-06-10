@@ -41,13 +41,13 @@
         <tbody>
           @foreach ($expenses as $expense)
             <tr>
-              <td>{{ $expense->id }}</td>
-              <td>{{ $expense->date->format('Y-m-d') }}</td>
-              <td>{{ $expense->category?->name }}</td>
-              <td>{{ $expense->item?->name }}</td>
-              <td>{{ number_format((float) $expense->amount, 2) }}</td>
-              <td>{{ $expense->note }}</td>
-              <td>
+              <td data-label="ID">{{ $expense->id }}</td>
+              <td data-label="Date">{{ $expense->date->format('Y-m-d') }}</td>
+              <td data-label="Expense Category">{{ $expense->category?->name }}</td>
+              <td data-label="Expense">{{ $expense->item?->name }}</td>
+              <td data-label="Amount">{{ number_format((float) $expense->amount, 2) }}</td>
+              <td data-label="Note">{{ $expense->note ?: '-' }}</td>
+              <td data-label="Actions">
                 <div class="actions">
                   <a class="button button-secondary" href="{{ route('expenses.edit', $expense) }}">Edit</a>
                   <form method="POST" action="{{ route('expenses.destroy', $expense) }}">
