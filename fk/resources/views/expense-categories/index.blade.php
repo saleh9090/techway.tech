@@ -28,6 +28,7 @@
           <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Sub</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -36,6 +37,7 @@
             <tr>
               <td>{{ $category->id }}</td>
               <td>{{ $category->name }}</td>
+              <td>{{ $category->items_count }}</td>
               <td>
                 <div class="actions">
                   <a class="button button-secondary" href="{{ route('expense-categories.edit', $category) }}">Edit</a>

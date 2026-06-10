@@ -16,6 +16,7 @@ class ExpenseCategoryController extends Controller
 
         return view('expense-categories.index', [
             'categories' => ExpenseCategory::query()
+                ->withCount('items')
                 ->when($search !== '', function ($query) use ($search) {
                     $query->where('name', 'like', "%{$search}%");
                 })

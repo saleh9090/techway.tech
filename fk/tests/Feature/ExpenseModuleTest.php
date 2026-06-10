@@ -327,4 +327,27 @@ class ExpenseModuleTest extends TestCase
         $response->assertSee('Packaging Materials');
         $response->assertDontSee('Food Ingredients');
     }
+
+    public function test_expense_categories_index_shows_sub_expense_count(): void
+    {
+        $category = ExpenseCategory::create([
+            'name' => 'Food Ingredients | المواد الغذائية',
+        ]);
+
+        ExpenseItem::create([
+            'expense_category_id' => $category->id,
+            'name' => 'Meat | اللحوم',
+        ]);
+
+        ExpenseItem::create([
+            'expense_category_id' => $category->id,
+            'name' => 'Chicken | الدجاج',
+        ]);
+
+        $response = $this->get(route('expense-categories.index'));
+
+        $response->assertOk();
+        $response->assertSee('Food Ingredients | المواد الغذائية');
+        $response->assertSeeInOrder(['Food Ingredients | المواد الغذائية', '2']);
+    }
 }
