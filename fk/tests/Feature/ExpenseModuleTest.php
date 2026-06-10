@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
+use App\Models\ExpenseItem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -11,46 +12,78 @@ class ExpenseModuleTest extends TestCase
 {
     use RefreshDatabase;
 
+    private function createExpenseItem(string $categoryName = 'Food Ingredients | المواد الغذائية', string $itemName = 'Flour'): ExpenseItem
+    {
+        $category = ExpenseCategory::create([
+            'name' => $categoryName,
+        ]);
+
+        return ExpenseItem::create([
+            'expense_category_id' => $category->id,
+            'name' => $itemName,
+        ]);
+    }
+
     public function test_expense_can_be_created_and_redirects_to_index(): void
     {
+        $item = $this->createExpenseItem();
+
         $response = $this->post(route('expenses.store'), [
             'date' => '2026-06-10',
+            'expense_category_id' => $item->expense_category_id,
+            'expense_item_id' => $item->id,
             'expense' => 'Flour purchase',
             'amount' => '12.50',
             'details' => 'Kitchen stock',
+            'note' => 'Paid by cash',
         ]);
 
         $response->assertRedirect(route('expenses.index'));
 
         $this->assertDatabaseHas('expenses', [
+            'expense_category_id' => $item->expense_category_id,
+            'expense_item_id' => $item->id,
             'expense' => 'Flour purchase',
             'amount' => '12.50',
             'details' => 'Kitchen stock',
+            'note' => 'Paid by cash',
         ]);
     }
 
     public function test_expense_can_be_updated_and_redirects_to_index(): void
     {
+        $oldItem = $this->createExpenseItem('Food Ingredients | المواد الغذائية', 'Flour');
+        $newItem = $this->createExpenseItem('Packaging Materials | مواد التعبئة والتغليف', 'Paper bags');
+
         $expense = Expense::create([
             'date' => '2026-06-10',
+            'expense_category_id' => $oldItem->expense_category_id,
+            'expense_item_id' => $oldItem->id,
             'expense' => 'Flour purchase',
             'amount' => '12.50',
             'details' => 'Kitchen stock',
+            'note' => null,
         ]);
 
         $response = $this->put(route('expenses.update', $expense), [
             'date' => '2026-06-11',
+            'expense_category_id' => $newItem->expense_category_id,
+            'expense_item_id' => $newItem->id,
             'expense' => 'Oil purchase',
             'amount' => '9.75',
             'details' => 'Updated details',
+            'note' => 'Updated note',
         ]);
 
         $response->assertRedirect(route('expenses.index'));
 
         $this->assertDatabaseHas('expenses', [
             'id' => $expense->id,
+            'expense_category_id' => $newItem->expense_category_id,
+            'expense_item_id' => $newItem->id,
             'expense' => 'Oil purchase',
             'amount' => '9.75',
+            'note' => 'Updated note',
         ]);
     }
 
@@ -143,6 +176,69 @@ class ExpenseModuleTest extends TestCase
         $response->assertSee('Current expense');
         $response->assertDontSee('Old expense');
         $response->assertDontSee('Future expense');
+    }
+
+    public function test_expense_requires_sub_expense_from_selected_category(): void
+    {
+        $selectedItem = $this->createExpenseItem('Food Ingredients | المواد الغذائية', 'Flour');
+        $otherItem = $this->createExpenseItem('Packaging Materials | مواد التعبئة والتغليف', 'Paper bags');
+
+        $response = $this->post(route('expenses.store'), [
+            'date' => '2026-06-10',
+            'expense_category_id' => $selectedItem->expense_category_id,
+            'expense_item_id' => $otherItem->id,
+            'expense' => 'Invalid purchase',
+            'amount' => '12.50',
+            'details' => null,
+            'note' => null,
+        ]);
+
+        $response->assertSessionHasErrors('expense_item_id');
+    }
+
+    public function test_expense_items_crud_redirects_to_index(): void
+    {
+        $category = ExpenseCategory::create([
+            'name' => 'Food Ingredients | المواد الغذائية',
+        ]);
+
+        $response = $this->post(route('expense-items.store'), [
+            'expense_category_id' => $category->id,
+            'name' => 'Flour',
+        ]);
+
+        $response->assertRedirect(route('expense-items.index'));
+
+        $item = ExpenseItem::firstOrFail();
+
+        $this->assertDatabaseHas('expense_items', [
+            'expense_category_id' => $category->id,
+            'name' => 'Flour',
+        ]);
+
+        $response = $this->put(route('expense-items.update', $item), [
+            'expense_category_id' => $category->id,
+            'name' => 'Premium flour',
+        ]);
+
+        $response->assertRedirect(route('expense-items.index'));
+
+        $this->assertDatabaseHas('expense_items', [
+            'id' => $item->id,
+            'name' => 'Premium flour',
+        ]);
+    }
+
+    public function test_expense_items_index_can_be_searched_by_category(): void
+    {
+        $this->createExpenseItem('Food Ingredients | المواد الغذائية', 'Flour');
+        $this->createExpenseItem('Packaging Materials | مواد التعبئة والتغليف', 'Paper bags');
+
+        $response = $this->get(route('expense-items.index', ['search' => 'Packaging']));
+
+        $response->assertOk();
+        $response->assertSee('Paper bags');
+        $response->assertDontSee('Flour');
     }
 
     public function test_expense_category_can_be_created_and_redirects_to_index(): void

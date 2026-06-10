@@ -12,6 +12,7 @@ Navigation:
 - Expenses
   - Expenses
   - Expenses Categories
+  - Sub Expenses
 
 ## Expenses
 
@@ -19,9 +20,12 @@ Fields:
 
 - ID: auto-generated
 - Date
+- Expense Category: parent category selected from Expenses Categories
+- Sub Expense: category-owned item selected after choosing the expense category
 - Expense
 - Amount: decimal value stored and displayed as `0.00`
 - Details
+- Note
 
 After adding or editing an expense, Laravel redirects back to the expenses index route.
 
@@ -33,6 +37,16 @@ Fields:
 - Name
 
 After adding or editing a category, Laravel redirects back to the expense categories index route.
+
+## Sub Expenses
+
+Fields:
+
+- ID: auto-generated
+- Expense Category: parent category
+- Name
+
+After adding or editing a sub expense, Laravel redirects back to the sub expenses index route.
 
 ## Local Setup
 

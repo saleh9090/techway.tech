@@ -12,6 +12,7 @@ The system must have an Expenses tab with two pages under it:
 
 - Expenses
 - Expenses Categories
+- Sub Expenses
 
 ### Expenses Page
 
@@ -21,9 +22,12 @@ Fields:
 
 - ID: auto-generated
 - Date
+- Expense Category: required parent category
+- Sub Expense: required item filtered by the selected category
 - Expense
 - Amount: decimal with `0.00` formatting
 - Details
+- Note
 
 After add or edit, the user must redirect back to the expenses index page.
 
@@ -37,6 +41,20 @@ Fields:
 - Name
 
 After add or edit, the user must redirect back to the categories index page.
+
+### Sub Expenses Page
+
+The sub expenses page must support listing, adding, editing, and deleting category-owned expense items.
+
+Fields:
+
+- ID: auto-generated
+- Expense Category: parent category selected from Expenses Categories
+- Name
+
+When adding or editing an expense, the user must first select an Expense Category, then only see Sub Expenses that belong to that category.
+
+After add or edit, the user must redirect back to the sub expenses index page.
 
 ## Future Core Records
 

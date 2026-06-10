@@ -22,6 +22,10 @@
       <strong>{{ \App\Models\ExpenseCategory::count() }}</strong>
     </article>
     <article class="card">
+      <span>Sub Expenses</span>
+      <strong>{{ \App\Models\ExpenseItem::count() }}</strong>
+    </article>
+    <article class="card">
       <span>Latest Expense</span>
       @php($latestExpense = \App\Models\Expense::query()->latest('date')->latest('id')->first())
       <strong>{{ $latestExpense ? $latestExpense->date->format('Y-m-d').' - '.$latestExpense->expense : 'No expenses yet' }}</strong>

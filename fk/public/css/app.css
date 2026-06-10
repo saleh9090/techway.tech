@@ -373,6 +373,7 @@ tr:last-child td {
 }
 
 .field input,
+.field select,
 .field textarea {
   width: 100%;
   border: 1px solid var(--line);
@@ -385,6 +386,10 @@ tr:last-child td {
 .field textarea {
   min-height: 112px;
   resize: vertical;
+}
+
+.field-full {
+  grid-column: 1 / -1;
 }
 
 .field small {

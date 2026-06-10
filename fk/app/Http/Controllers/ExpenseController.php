@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Expense;
+use App\Models\ExpenseCategory;
+use App\Models\ExpenseItem;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class ExpenseController extends Controller
@@ -18,13 +21,17 @@ class ExpenseController extends Controller
 
         return view('expenses.index', [
             'expenses' => Expense::query()
+                ->with(['category', 'item'])
                 ->when($search !== '', function ($query) use ($search) {
                     $query->where(function ($query) use ($search) {
                         $query
                             ->where('expense', 'like', "%{$search}%")
                             ->orWhere('date', 'like', "%{$search}%")
                             ->orWhere('amount', 'like', "%{$search}%")
-                            ->orWhere('details', 'like', "%{$search}%");
+                            ->orWhere('details', 'like', "%{$search}%")
+                            ->orWhere('note', 'like', "%{$search}%")
+                            ->orWhereHas('category', fn ($query) => $query->where('name', 'like', "%{$search}%"))
+                            ->orWhereHas('item', fn ($query) => $query->where('name', 'like', "%{$search}%"));
                     });
                 })
                 ->when($dateFrom, fn ($query) => $query->whereDate('date', '>=', $dateFrom))
@@ -47,6 +54,8 @@ class ExpenseController extends Controller
                 'date' => now()->toDateString(),
                 'amount' => '0.00',
             ]),
+            'categories' => ExpenseCategory::query()->orderBy('id')->get(),
+            'items' => ExpenseItem::query()->orderBy('expense_category_id')->orderBy('id')->get(),
         ]);
     }
 
@@ -63,6 +72,8 @@ class ExpenseController extends Controller
     {
         return view('expenses.edit', [
             'expense' => $expense,
+            'categories' => ExpenseCategory::query()->orderBy('id')->get(),
+            'items' => ExpenseItem::query()->orderBy('expense_category_id')->orderBy('id')->get(),
         ]);
     }
 
@@ -88,9 +99,16 @@ class ExpenseController extends Controller
     {
         return $request->validate([
             'date' => ['required', 'date'],
+            'expense_category_id' => ['required', 'exists:expense_categories,id'],
+            'expense_item_id' => [
+                'required',
+                Rule::exists('expense_items', 'id')
+                    ->where(fn ($query) => $query->where('expense_category_id', $request->input('expense_category_id'))),
+            ],
             'expense' => ['required', 'string', 'max:255'],
             'amount' => ['required', 'numeric', 'min:0'],
             'details' => ['nullable', 'string'],
+            'note' => ['nullable', 'string'],
         ]);
     }
 
