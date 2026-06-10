@@ -1,14 +1,12 @@
 # Fateer Wa Khameer Accounting System
 
-Internal accounting and operations system for Fateer Wa Khameer.
+Laravel accounting system for Fateer Wa Khameer.
 
-## Current Build
+## Current Module
 
-The first working module is a static browser-based expenses module.
+The first implemented module is Expenses.
 
-Open `index.html` to use the system.
-
-## Navigation
+Navigation:
 
 - Dashboard
 - Expenses
@@ -22,10 +20,10 @@ Fields:
 - ID: auto-generated
 - Date
 - Expense
-- Amount: decimal value displayed as `0.00`
+- Amount: decimal value stored and displayed as `0.00`
 - Details
 
-After adding or editing an expense, the app redirects back to `expenses/index.html`.
+After adding or editing an expense, Laravel redirects back to the expenses index route.
 
 ## Expenses Categories
 
@@ -34,8 +32,38 @@ Fields:
 - ID: auto-generated
 - Name
 
-After adding or editing a category, the app redirects back to `expense-categories/index.html`.
+After adding or editing a category, Laravel redirects back to the expense categories index route.
 
-## Storage
+## Local Setup
 
-Data is stored in the browser using `localStorage`. This is suitable for the first static prototype. A database-backed version should replace this before production accounting use.
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
+```
+
+Open the app at the URL printed by `php artisan serve`.
+
+## Deployment
+
+The web server document root should point to:
+
+```text
+fk/public
+```
+
+Run migrations on the server after deployment:
+
+```bash
+php artisan migrate --force
+```
+
+## Static Prototype
+
+The previous static prototype is preserved in:
+
+```text
+docs/static-prototype
+```

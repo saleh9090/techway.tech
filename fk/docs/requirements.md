@@ -58,9 +58,15 @@ After add or edit, the user must redirect back to the categories index page.
 - Profit summary
 - Cash and bank movement
 
+## Implementation
+
+- Framework: Laravel
+- Database access: Eloquent models and migrations
+- Add/edit behavior: controller redirects to the relevant index route after successful create or update
+- Previous static prototype: preserved under `docs/static-prototype`
+
 ## Open Decisions
 
-- Static prototype or database-backed production version
 - Arabic, English, or bilingual interface
 - Single branch or multiple branches
 - Inventory tracking required now or later
