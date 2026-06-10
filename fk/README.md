@@ -42,6 +42,7 @@ cp .env.example .env
 php artisan key:generate
 mysql -u root -e "CREATE DATABASE fk_accounting CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 php artisan migrate
+php artisan db:seed --class=ExpenseCategorySeeder
 php artisan serve
 ```
 
@@ -59,6 +60,7 @@ Run migrations on the server after deployment:
 
 ```bash
 php artisan migrate --force
+php artisan db:seed --class=ExpenseCategorySeeder --force
 ```
 
 ## Database

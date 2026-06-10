@@ -1,0 +1,36 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\ExpenseCategory;
+use Illuminate\Database\Seeder;
+
+class ExpenseCategorySeeder extends Seeder
+{
+    public function run(): void
+    {
+        $categories = [
+            'Food Ingredients | المواد الغذائية',
+            'Beverages | المشروبات',
+            'Packaging Materials | مواد التعبئة والتغليف',
+            'Salaries & Wages | الرواتب والأجور',
+            'Rent & Accommodation | الإيجارات والسكن',
+            'Utilities | الخدمات',
+            'Equipment & Maintenance | المعدات والصيانة',
+            'Cleaning Supplies | مواد التنظيف',
+            'Transportation & Delivery | النقل والتوصيل',
+            'Marketing & Advertising | التسويق والإعلانات',
+            'Office Expenses | المصروفات المكتبية',
+            'Government Fees | الرسوم الحكومية',
+            'Professional Services | الخدمات المهنية',
+            'Staff Welfare | رفاهية الموظفين',
+            'Miscellaneous Expenses | مصروفات أخرى',
+        ];
+
+        foreach ($categories as $category) {
+            ExpenseCategory::updateOrCreate([
+                'name' => $category,
+            ]);
+        }
+    }
+}
