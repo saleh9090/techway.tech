@@ -194,6 +194,24 @@ th {
   border-bottom: 1px solid var(--line);
 }
 
+.table-search {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex: 1 1 420px;
+}
+
+.table-search input {
+  width: min(360px, 100%);
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 9px 12px;
+  background: white;
+  color: var(--ink);
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -243,29 +261,15 @@ tr:last-child td {
   border-top: 1px solid var(--line);
 }
 
-.pagination-search,
 .pagination-meta {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.pagination-search {
-  flex: 1 1 320px;
-}
-
-.pagination-search input {
-  width: min(320px, 100%);
-  min-height: 40px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 9px 12px;
-  background: white;
-  color: var(--ink);
-}
-
 .pagination-meta {
   flex-wrap: wrap;
+  width: 100%;
   justify-content: flex-end;
 }
 
@@ -389,12 +393,16 @@ tr:last-child td {
     display: grid;
   }
 
-  .pagination-search,
+  .table-search,
   .pagination-meta {
     justify-content: stretch;
   }
 
-  .pagination-search input {
+  .table-search {
+    display: grid;
+  }
+
+  .table-search input {
     width: 100%;
   }
 

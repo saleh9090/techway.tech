@@ -12,6 +12,10 @@
   <section class="table-panel">
     <div class="table-toolbar">
       <strong>Categories List</strong>
+      @include('partials.search-form', [
+          'search' => $search,
+          'placeholder' => 'Search categories',
+      ])
     </div>
 
     @if ($categories->isEmpty())
@@ -49,8 +53,6 @@
 
     @include('partials.pagination', [
         'paginator' => $categories,
-        'search' => $search,
-        'placeholder' => 'Search categories',
     ])
   </section>
 @endsection

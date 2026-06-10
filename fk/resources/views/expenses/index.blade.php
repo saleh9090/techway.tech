@@ -12,6 +12,10 @@
   <section class="table-panel">
     <div class="table-toolbar">
       <strong>Expenses List</strong>
+      @include('partials.search-form', [
+          'search' => $search,
+          'placeholder' => 'Search expenses',
+      ])
     </div>
 
     @if ($expenses->isEmpty())
@@ -55,8 +59,6 @@
 
     @include('partials.pagination', [
         'paginator' => $expenses,
-        'search' => $search,
-        'placeholder' => 'Search expenses',
     ])
   </section>
 @endsection
