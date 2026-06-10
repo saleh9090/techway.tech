@@ -194,13 +194,30 @@ th {
   border-bottom: 1px solid var(--line);
 }
 
-.table-search {
+.table-controls {
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  gap: 8px;
+  gap: 12px;
   flex: 1 1 760px;
   flex-wrap: wrap;
+}
+
+.table-search,
+.table-page-size {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.table-search {
+  flex: 1 1 620px;
+  justify-content: flex-end;
+}
+
+.table-page-size {
+  flex: 0 0 auto;
 }
 
 .filter-field {
