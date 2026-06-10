@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\ExpenseCategory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
 class ExpenseCategorySeeder extends Seeder
@@ -27,8 +28,11 @@ class ExpenseCategorySeeder extends Seeder
             'Miscellaneous Expenses | مصروفات أخرى',
         ];
 
+        ExpenseCategory::query()->delete();
+        DB::statement('ALTER TABLE expense_categories AUTO_INCREMENT = 1');
+
         foreach ($categories as $category) {
-            ExpenseCategory::updateOrCreate([
+            ExpenseCategory::create([
                 'name' => $category,
             ]);
         }
