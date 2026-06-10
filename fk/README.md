@@ -46,6 +46,8 @@ Fields:
 
 After adding or editing a sub expense, Laravel redirects back to the sub expenses index route.
 
+Default sub expenses are seeded under the main expense categories, including food ingredients, beverages, packaging, salaries, rent, utilities, equipment, cleaning, transportation, marketing, office expenses, government fees, professional services, staff welfare, and miscellaneous expenses.
+
 ## Local Setup
 
 ```bash

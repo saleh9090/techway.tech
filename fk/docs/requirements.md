@@ -54,6 +54,24 @@ When adding or editing an expense, the user must first select an Expense Categor
 
 After add or edit, the user must redirect back to the sub expenses index page.
 
+The system seeds default sub expenses under the main expense categories:
+
+- Food Ingredients: Meat, Chicken, Cheese, Vegetables, Spices & Seasonings, Flour & Dough Ingredients, Oil & Ghee, Dairy Products, Eggs
+- Beverages: Tea & Karak Ingredients, Water, Soft Drinks, Juices
+- Packaging Materials: Boxes, Bags, Stickers & Labels, Napkins & Tissues
+- Salaries & Wages: Employee Salaries, Overtime, Staff Benefits
+- Rent & Accommodation: Shop Rent, Staff Accommodation
+- Utilities: Electricity, Water Utility, Internet, Telephone
+- Equipment & Maintenance: Kitchen Equipment, Oven Maintenance, Air Conditioning, General Maintenance
+- Cleaning Supplies: Cleaning Chemicals, Cleaning Tools
+- Transportation & Delivery: Fuel, Delivery Expenses, Vehicle Maintenance
+- Marketing & Advertising: Social Media Ads, Printing Materials, Signboards & Branding
+- Office Expenses: Stationery, Software & Subscriptions
+- Government Fees: Licenses & Permits, Municipality Fees
+- Professional Services: Accounting Services, Legal Services, Consultancy Services
+- Staff Welfare: Meals & Refreshments, Uniforms
+- Miscellaneous Expenses: Other Expenses
+
 ## Future Core Records
 
 - Customer

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use App\Models\ExpenseItem;
+use Database\Seeders\ExpenseItemSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -226,6 +227,29 @@ class ExpenseModuleTest extends TestCase
         $response->assertOk();
         $response->assertSee('Paper bags');
         $response->assertDontSee('Flour');
+    }
+
+    public function test_default_sub_expenses_are_seeded_under_main_categories(): void
+    {
+        $this->seed(ExpenseItemSeeder::class);
+
+        $food = ExpenseCategory::where('name', 'Food Ingredients | المواد الغذائية')->firstOrFail();
+        $beverages = ExpenseCategory::where('name', 'Beverages | المشروبات')->firstOrFail();
+
+        $this->assertDatabaseHas('expense_items', [
+            'expense_category_id' => $food->id,
+            'name' => 'Meat | اللحوم',
+        ]);
+
+        $this->assertDatabaseHas('expense_items', [
+            'expense_category_id' => $food->id,
+            'name' => 'Eggs | البيض',
+        ]);
+
+        $this->assertDatabaseHas('expense_items', [
+            'expense_category_id' => $beverages->id,
+            'name' => 'Tea & Karak Ingredients | الشاي ومكونات الكرك',
+        ]);
     }
 
     public function test_expense_category_can_be_created_and_redirects_to_index(): void
