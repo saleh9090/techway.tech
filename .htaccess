@@ -1,6 +1,0 @@
-RewriteEngine On
-
-# Send root domain requests to the deployed TechWay folder.
-RewriteCond %{HTTP_HOST} ^(www\.)?techway\.tech$ [NC]
-RewriteCond %{REQUEST_URI} ^/?$
-RewriteRule ^$ /techway/ [R=301,L]
